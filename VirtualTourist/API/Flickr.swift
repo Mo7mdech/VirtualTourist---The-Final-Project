@@ -62,27 +62,27 @@ struct Flickr {
             }
             
             guard let data = data else{
-                completion(nil, nil, "<<<< No Data Returned >>>>")
+                completion(nil, nil, "No Data Returned")
                 return
             }
             
             guard let output = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] else{
-                completion(nil, nil, "<<<< JSON Parsing Failed >>>>")
+                completion(nil, nil, "JSON Parsing Failed")
                 return
             }
             
             guard let stat = output["stat"] as? String, stat == "ok" else{
-                completion(nil,nil, error?.localizedDescription)
+                completion(nil,nil, "Flickr API reutrned Error")
                 return
             }
             
             guard let photosResult = output["photos"] as? [String: Any] else{
-                completion(nil, nil, error?.localizedDescription)
+                completion(nil, nil, "Cannot find key (photos) in \(output)")
                 return
             }
             
             guard let photosArray = photosResult["photo"] as? [[String: Any]] else{
-                completion(nil, nil, error?.localizedDescription)
+                completion(nil, nil, "Cannot find key (photo) in \(photosResult)")
                 return
             }
             
